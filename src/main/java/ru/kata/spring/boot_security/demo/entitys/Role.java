@@ -10,11 +10,11 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "role")
 public class Role implements GrantedAuthority {
 
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

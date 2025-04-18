@@ -17,17 +17,18 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
     private static final String ROLE_USER = "ROLE_USER";
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
-
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("ROLE_ADMIN")) {
-            httpServletResponse.sendRedirect("/admin/user-list");
-        } else if (roles.contains("ROLE_USER")) {
-            httpServletResponse.sendRedirect("/user/user-page");
+
+        if (roles.contains(ROLE_ADMIN)) {
+            response.sendRedirect("/admin/user-list");
+        } else if (roles.contains(ROLE_USER)) {
+            response.sendRedirect("/user/user-page");
         } else {
-            httpServletResponse.sendRedirect("/login?error=unauthorized");
-            System.out.println("Error");
+            response.sendRedirect("/login?error=unauthorized");
+            System.out.println("Error: Unauthorized role");
         }
+
         System.out.println("User " + authentication.getName() + " logged in with roles: " + roles);
     }
 }
